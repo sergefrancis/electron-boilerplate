@@ -2,7 +2,7 @@
 
 A minimalistic yet comprehensive boilerplate application for [Electron runtime](http://electron.atom.io). Tested on macOS, Windows and Linux.  
 
-This project does not impose on you any framework (like Angular or React). It tries to give you only the 'electron' part of technology stack so you can pick your favorite technologies to build the actual app.
+This project does not impose on you any framework (like Angular or React). It tries to give you only the 'electron' part of technology stack so you can pick your favorite tools to build the actual app.
 
 # Quick start
 
@@ -43,7 +43,7 @@ npm start
 The version of Electron runtime your app is using is declared in `package.json`:
 ```json
 "devDependencies": {
-  "electron": "1.6.1"
+  "electron": "1.6.6"
 }
 ```
 Side note: [Electron authors advise](http://electron.atom.io/docs/tutorial/electron-versioning/) to use fixed version here.
@@ -54,11 +54,11 @@ Build process is founded upon [gulp](https://github.com/gulpjs/gulp) task runner
 
 You can [add as many more entry points as you like](https://github.com/szwacz/electron-boilerplate/blob/master/tasks/build_app.js#L16) (e.g. to split your app into modules).
 
-By the way, [rollup has a lot of plugins](https://github.com/rollup/rollup/wiki/Plugins). You can add them in [this file](https://github.com/szwacz/electron-boilerplate/blob/master/tasks/bundle.js).
+By the way, [rollup has a lot of plugins](https://github.com/rollup/rollup/wiki/Plugins). You can add them in [this file](https://github.com/szwacz/electron-boilerplate/blob/master/tasks/bundle.js#L29).
 
 ## Adding npm modules to your app
 
-Remember to respect the split between `dependencies` and `devDependencies` in `package.json` file. Only modules listed in `dependencies` will be included into distributable app.
+Remember to respect the split between `dependencies` and `devDependencies` in `package.json` file. Only modules listed in `dependencies` will be included into distributable app when you run the release script.
 
 Side note: If the module you want to use in your app is a native one (not pure JavaScript but compiled C code or something) you should first  run `npm install name_of_npm_module --save` and then `npm run postinstall` to rebuild the module for Electron. This needs to be done only once when you're first time installing the module. Later on postinstall script will fire automatically with every `npm install`.
 
@@ -84,7 +84,7 @@ var myStuff = require('./my_lib/my_stuff');
 npm test
 ```
 
-Using [electron-mocha](https://github.com/jprichardson/electron-mocha) test runner with the [chai](http://chaijs.com/api/assert/) assertion library. This task searches for all files in `src` directory which respect pattern `*.spec.js`.
+Using [electron-mocha](https://github.com/jprichardson/electron-mocha) test runner with the [chai](http://chaijs.com/api/assert/) assertion library. This task searches for all files in `src` directory which respect pattern `*.spec.js` (so you can put unit test file in the same directory as the tested file).
 
 ## End to end tests
 
@@ -116,11 +116,11 @@ To package your app into an installer use command:
 npm run release
 ```
 
-It will start the packaging process for operating system you are running this command on. Ready for distribution file will be outputted to `dist` directory.
-
-You can create Windows installer only when running on Windows, the same is true for Linux and macOS. So to generate all three installers you need all three operating systems.
+It will start the packaging process and ready for distribution file will be outputted to `dist` directory.
 
 All packaging actions are handled by [electron-builder](https://github.com/electron-userland/electron-builder). It has a lot of [customization options](https://github.com/electron-userland/electron-builder/wiki/Options), which you can declare under ["build" key in package.json file](https://github.com/szwacz/electron-boilerplate/blob/master/package.json#L2).
+
+If you want to package your app for multiple operating systems from your own machine [electron-builder kind of supports this](https://github.com/electron-userland/electron-builder/wiki/Multi-Platform-Build), but there is a lot of asterisks. That's why this boilerplate is configured so only package for the OS you're running on is created (you can of course change it).
 
 # License
 
